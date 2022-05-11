@@ -18,7 +18,11 @@
         </ul>
     </nav>
     <div class="container mt-3">
+            {{#if message }}
+                <h5 class="alert alert-danger mt-4 text-center">{{message}}</h5>
+            {{/if}}
         <div class="card mx-auto" style="width: 20rem;">
+            
             <div class="card-header text-center fw-bold">
                 Register Form
             </div>
@@ -47,12 +51,10 @@
                     
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
-
-                {{#if message }}
-                    <h4 class="alert alert-danger mt-4">{{message}}</h4>
-                {{/if}}
             </div>
+             
         </div>
+
     </div>
 
 

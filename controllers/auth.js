@@ -2,6 +2,7 @@ const { render } = require('express/lib/response');
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const async = require('hbs/lib/async');
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -14,16 +15,19 @@ exports.register = (req, res) => {
     console.log(req.body);
     const { firstName, lastName, email, password, passwordConfirm } = req.body;
 
-    db.query('SELECT email FROM users WHERE email = ?',[email], (error, results) => {
+    db.query('SELECT email FROM users WHERE email = ?',[email], async (error, results) => {
         if(error) {
             console.log(error);
         }
         if(results.length > 0) {
-            return render('register', { message: 'That email is already in use'})
+            return res.render('register', { message: 'That email is already in use'});
         }
         else if(password !== passwordConfirm) {
-            return render('register', { message: 'Passwords do not match'})
+            return res.render('register', { message: 'Passwords do not match'});
         }
-    })
-    res.send('Form Submitted!')
+
+        let hashedPassword = await bcrypt.hash(password,8);
+        console.log(hashedPassword);
+    });
+    
 }
