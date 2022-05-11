@@ -7,7 +7,13 @@ const dotenv = require('dotenv');
 const app = express();
 
 const publicDirectory = path.join(__dirname, './public');
-app.use(express.static(publicDirectory))
+app.use(express.static(publicDirectory));
+
+//parse url encoded body (as sent by html form)
+app.use(express.urlencoded({extended: false}));
+
+//parse JSON bodies (as sent by API clients)
+app.use(express.json());
 app.set('view engine', 'hbs');
 dotenv.config({ path: './.env'});
 
@@ -42,6 +48,7 @@ db.connect((error) => {
 //Route Redefined
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
+
 
 
 app.listen(5001, () => {
