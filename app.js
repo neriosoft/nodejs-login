@@ -28,10 +28,20 @@ db.connect((error) => {
     }
 })
 
-app.get('/', (req, res) => {
-    //res.send('Welcome to nodejs login app!')
-    res.render('index');
-})
+//initial route defined
+// app.get('/', (req, res) => {
+//     //res.send('Welcome to nodejs login app!')
+//     res.render('index');
+// })
+
+// app.get('/register', (req, res) => {
+//     //res.send('Welcome to nodejs login app!')
+//     res.render('register');
+// })
+
+//Route Redefined
+app.use('/', require('./routes/pages'));
+app.use('/auth', require('./routes/auth'));
 
 
 app.listen(5001, () => {
